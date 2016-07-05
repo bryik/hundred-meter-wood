@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>A-Frame - Hundred Meter Wood</title>
+    <meta name="description" content="A-Frame - Forest Generation Comparison">
+    <script src="../lib/aframe.min.js"></script>
+    <script src="../lib/d3.min.js" charset="utf-8"></script>
+    <script src="../lib/aframe-bmfont-text-component.min.js"></script>
+    <script src="../lib/voice-control.js"></script>
+  </head>
+  <body>
+
+    <a-scene antialias='true'>
+      <a-assets>
+        <a-asset-item id="tree" src="../assets/models/tree.dae"></a-asset-item>
+      </a-assets>
+
+      <!-- Cloud level 2 (user) -->
+      <a-entity>
+
+        <!-- Camera platform (with wind sound) -->
+        <a-box position="0.4 39.2 15.4" color="white" opacity="0.70" width="1" depth="1" height="1">
+          <a-entity position="0 3 -1" sound="src:../assets/sounds/gusty.ogg; autoplay: true; volume: 1; loop: true"></a-entity>
+        </a-box>
+
+        <!-- Camera -->
+        <a-entity id="camera" camera look-controls wasd-controls mouse-cursor position="0 41 15"></a-entity>
+
+        <!-- Title -->
+        <a-entity position="-1.7 41.5 13"
+                  bmfont-text="color: black;
+                               mode: pre;
+                               text: Hundred Meter Wood"
+                  scale="2 2 2">
+        </a-entity>
+
+        <!-- Instructions -->
+        <a-entity position="-0.9 40.5 13"
+                  bmfont-text="color: red;
+                               text: Look down!"
+                  scale="2 2 2">
+        </a-entity>
+
+      </a-entity>
+
+
+      <!-- Cloud level 1 (buttons) -->
+      <a-entity>
+
+        <!-- Buttons -->
+        <a-entity position="-1 -1 -1.5">
+
+          <!-- Control outline -->
+          <a-box position="-0.5 33.5 15.5" color="white" opacity="0.70" width="5" depth="6" height="5"></a-box>
+
+            <a-entity position="0 36.5 16">
+
+              <a-entity scale="2 2 2" position="-1.5 0 -2.6" rotation="-90 0 0" bmfont-text="text: Voice Commands"></a-entity>
+
+              <a-entity position="-2 0 -2">
+                <a-box id="sample" color="purple" width="0.5" depth="0.5" height="0.5"></a-box>
+                <a-entity scale="1.5 1.5 1.5" position="0.5 0 0" rotation="-90 0 0" bmfont-text="text: Sample"></a-entity>
+              </a-entity>
+
+              <a-entity position="-2 0 -1">
+                <a-box id="random" color="black" width="0.5" depth="0.5" height="0.5"></a-box>
+                <a-entity scale="1.5 1.5 1.5" position="0.5 0 0" rotation="-90 0 0" bmfont-text="text: Random"></a-entity>
+              </a-entity>
+
+              <a-entity position="-2 0 0">
+                <a-box id="reset" color="red" width="0.5" depth="0.5" height="0.5"></a-box>
+                <a-entity scale="1.5 1.5 1.5" position="0.5 0 0" rotation="-90 0 0" bmfont-text="text: Reset"></a-entity>
+              </a-entity>
+
+              <a-entity position="-2 0 1">
+                <a-box id="ground" color="#795548" width="0.5" depth="0.5" height="0.5"></a-box>
+                <a-entity scale="1.5 1.5 1.5" position="0.5 0 0" rotation="-90 0 0" bmfont-text="text: Ground"></a-entity>
+              </a-entity>
+
+              <a-entity position="-2 0 2">
+                <a-box id="sky" color="skyblue" width="0.5" depth="0.5" height="0.5"></a-box>
+                <a-entity scale="1.5 1.5 1.5" position="0.5 0 0" rotation="-90 0 0" bmfont-text="text: Sky"></a-entity>
+              </a-entity>
+
+            </a-entity>
+
+          </a-entity>
+
+      </a-entity>
+
+
+      <!-- Ground level -->
+      <a-entity>
+
+        <!-- Ground -->
+        <a-plane width="105" height="105" color="#249889" rotation="-90 0 0"></a-plane>
+
+        <!-- Forest -->
+        <a-entity id="forest" position="-50 0 -50"></a-entity>
+
+      </a-entity>
+
+      <!-- Sound -->
+      <a-entity position="0.71 4 0" visible="false">
+        <a-box color="red" position="-15 0 -15" sound="src:../assets/sounds/woodpecker.ogg; autoplay: true; volume: 3; loop: true"></a-box>
+        <a-box color="red" position="20 0 0" sound="src:../assets/sounds/blackbird.ogg; autoplay: true; volume: 3; loop: true"></a-box>
+        <a-box color="red" position="-15 0 15" sound="src:../assets/sounds/bees.ogg; autoplay: true; volume: 3; loop: true"></a-box>
+      </a-entity>
+
+      <!-- Sky and lighting -->
+      <a-sky color="#24CAFF" radius="1000"></a-sky>
+      <a-light type="directional" color="#FFF" intensity="0.45" position="4 2 1"></a-light>
+      <a-light type="ambient" color="#A8A8A8"></a-light>
+
+      <!-- Clouds -->
+      <a-entity position="0 0 0">
+        <!-- Large, foreground -->
+        <a-box color="white" opacity="0.25" width="18" depth="28" height="6">
+          <a-animation attribute="position" from="-280 240 180" to="-280 240 340" begin="0"
+                       dur="36000" easing="linear" repeat="indefinite"
+                       fill="both"></a-animation>
+        </a-box>
+
+        <a-box color="white" opacity="0.65" width="8" depth="12" height="4">
+          <a-animation attribute="position" from="5 32 -80" to="5 32 120" begin="12000"
+                       dur="48000" easing="linear" repeat="indefinite"
+                       fill="both"></a-animation>
+        </a-box>
+
+        <a-box color="white" opacity="0.75" width="6" depth="9" height="4" visible="false">
+          <a-animation attribute="position" from="10 12 -10" to="10 12 100" begin="1000"
+                       dur="36000" easing="linear" repeat="indefinite"
+                       fill="both"></a-animation>
+          <a-animation attribute="visible" to="true" begin="1000" dur="1"></a-animation>
+        </a-box>
+
+        <a-box color="white" opacity="0.5" width="8" depth="12" height="3">
+          <a-animation attribute="position" from="20 16 -80" to="20 16 120" begin="200"
+                       dur="52000" easing="linear" repeat="indefinite"
+                       fill="both"></a-animation>
+        </a-box>
+
+        <a-box color="white" opacity="0.8" width="8" depth="12" height="3">
+          <a-animation attribute="position" from="-20 18 -50" to="-20 18 120" begin="200"
+                       dur="50000" easing="linear" repeat="indefinite"
+                       fill="both"></a-animation>
+        </a-box>
+
+        <a-box color="white" opacity="0.75" width="5" depth="7" height="3">
+          <a-animation attribute="position" from="26 20 -80" to="26 20 120" begin="20000"
+                       dur="48000" easing="linear" repeat="indefinite"
+                       fill="both"></a-animation>
+        </a-box>
+      </a-entity>
+
+    </a-scene>
+  </body>
+  <script src="../main.js"></script>
+</html>
